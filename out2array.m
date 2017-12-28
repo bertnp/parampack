@@ -46,12 +46,29 @@ for f_it = 1:n_fields
     field_ind(f_it) = get_field_ind(p_list, fields{f_it});
 end
 
-% form output matrix
+%% form output matrix
+% first determine whether we need a matrix or a cell array
+is_val_specified = ~isempty(val_field);
+is_out_number = isnumeric(out) || ...
+                (is_val_specified && isnumeric(out{1}.(val_field)) ...
+                                  && isscalar(out{1}.(val_field)));
+% x(ind) = out(ind)
+% x(ind) = out(ind).val
+% x{ind} = out{ind}
+% x{ind} = out{ind}.val
 if n_fields == 1
-    e = zeros(n_params(field_ind), 1);
+    out_siz = [n_params(field_ind) 1];
 else
-    e = zeros(n_params(field_ind));
+    out_siz= n_params(field_ind);
 end
+
+if is_out_number
+    e = zeros(out_siz);
+else
+    e = cell(out_siz);
+end
+
+%% assign outputs
 n_total_params = prod(n_params);
 for p_it = 1:n_total_params
     % get cell array of individual indices of each field corresponding to p_it
@@ -61,5 +78,17 @@ for p_it = 1:n_total_params
     p_ind = p_ind(field_ind);
 
     % write to output array
-    e(p_ind{:}) = out{p_it}.(val_field);
+    if is_val_specified
+        if is_out_number
+            e(p_ind{:}) = out{p_it}.(val_field);
+        else
+            e{p_ind{:}} = out{p_it}.(val_field);
+        end
+    else
+        if is_out_number
+            e(p_ind{:}) = out(p_it);
+        else
+            e{p_ind{:}} = out{p_it};
+        end
+    end
 end
