@@ -49,7 +49,7 @@ else
     
     use_vals = andmat(use_vals);
     
-    full_ind = all_ind(use_vals,:);
+    full_ind = all_ind(boolean(use_vals),:);
     p_it = size(full_ind,1);
     for ii = 1:size(full_ind,1)
         t_ind = num2cell(full_ind(ii,:));
