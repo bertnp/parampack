@@ -25,9 +25,8 @@ p_out = cell(numel(p_it),1);
 for p_indx = 1:numel(p_it)
     p_t = p_it(p_indx);
     % get indices for parameter configuration
-    p_ind = [];
-    [p_ind{1:n_fields}] = ind2sub(n_per_field, p_t);
-    
+    p_ind = cell(1,n_fields);
+    [p_ind{1:n_fields}] = ind2sub(n_per_field, p_t)
     p = [];
     for f_it = 1:n_fields
         field = fields{f_it};
