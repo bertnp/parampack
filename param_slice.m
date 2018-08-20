@@ -1,4 +1,4 @@
-function p_it = param_slice2(p_list, fields, inds)
+function p_it = param_slice(p_list, fields, inds)
 %PARAM_SLICE convert (field, ind) pairs to linear index
 %
 % Example: suppose the struct p has the fields
