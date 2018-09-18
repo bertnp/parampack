@@ -17,7 +17,7 @@ n_total_params = prod(n_per_field);
 if p_it == 0
     p_out = n_total_params;
     return;
-elseif sum(p_it > n_total_params) > 0
+elseif any(p_it > n_total_params)
     error('Index exceeds number of configurations in p_list.');
 end
 
